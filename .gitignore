@@ -1,0 +1,58 @@
+## .NET / C# gitignore
+
+# Build output
+bin/
+obj/
+out/
+
+# NuGet packages
+*.nupkg
+*.snupkg
+packages/
+.nuget/
+
+# Visual Studio
+.vs/
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+*.userprefs
+
+# Rider / JetBrains
+.idea/
+*.sln.iml
+
+# VS Code
+.vscode/
+
+# Test results
+TestResults/
+coverage/
+*.trx
+*.coverage
+
+# ASP.NET
+wwwroot/lib/
+
+# User secrets (NEVER commit these)
+secrets.json
+appsettings.Development.json
+
+# Environment / secrets
+.env
+.env.*
+*.pfx
+*.p12
+
+# Logs
+logs/
+*.log
+
+# OS
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Migrations (keep these in source control — comment out if you want to exclude)
+# Migrations/
