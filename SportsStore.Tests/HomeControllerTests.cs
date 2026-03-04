@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using Moq;
 using SportsStore.Controllers;
 using SportsStore.Models;
@@ -12,6 +13,9 @@ namespace SportsStore.Tests {
 
     public class HomeControllerTests {
 
+        private static ILogger<HomeController> CreateLogger() =>
+            new Mock<ILogger<HomeController>>().Object;
+
         [Fact]
         public void Can_Use_Repository() {
             // Arrange
@@ -21,7 +25,7 @@ namespace SportsStore.Tests {
                 new Product {ProductID = 2, Name = "P2"}
             }).AsQueryable<Product>());
 
-            HomeController controller = new HomeController(mock.Object);
+            HomeController controller = new HomeController(mock.Object, CreateLogger());
 
             // Act
             ProductsListViewModel result =
@@ -46,7 +50,7 @@ namespace SportsStore.Tests {
                 new Product {ProductID = 5, Name = "P5"}
             }).AsQueryable<Product>());
 
-            HomeController controller = new HomeController(mock.Object);
+            HomeController controller = new HomeController(mock.Object, CreateLogger());
             controller.PageSize = 3;
 
             // Act
@@ -76,7 +80,7 @@ namespace SportsStore.Tests {
 
             // Arrange
             HomeController controller =
-                new HomeController(mock.Object) { PageSize = 3 };
+                new HomeController(mock.Object, CreateLogger()) { PageSize = 3 };
 
             // Act
             ProductsListViewModel result =
