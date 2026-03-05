@@ -7,5 +7,7 @@ namespace SportsStore.Models {
             : base(options) { }
 
         public DbSet<Product> Products => Set<Product>();
+        public DbSet<Order> Orders => Set<Order>();
+        public DbSet<OrderLine> OrderLines => Set<OrderLine>();
     }
 }

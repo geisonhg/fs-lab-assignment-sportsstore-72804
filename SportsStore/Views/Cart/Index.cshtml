@@ -1,0 +1,47 @@
+@model SportsStore.Models.Cart
+
+<h2>Your Cart</h2>
+
+@if (!Model.Lines.Any()) {
+    <div class="alert alert-info">Your cart is empty. <a href="/">Continue shopping</a></div>
+} else {
+    <table class="table table-bordered">
+        <thead class="table-dark">
+            <tr>
+                <th>Product</th>
+                <th class="text-end">Price</th>
+                <th class="text-center">Qty</th>
+                <th class="text-end">Subtotal</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var line in Model.Lines) {
+                <tr>
+                    <td>@line.Product.Name</td>
+                    <td class="text-end">@line.Product.Price.ToString("c")</td>
+                    <td class="text-center">@line.Quantity</td>
+                    <td class="text-end">@((line.Product.Price * line.Quantity).ToString("c"))</td>
+                    <td class="text-center">
+                        <form method="post" asp-action="RemoveFromCart">
+                            <input type="hidden" name="productId" value="@line.Product.ProductID" />
+                            <button type="submit" class="btn btn-sm btn-danger">Remove</button>
+                        </form>
+                    </td>
+                </tr>
+            }
+        </tbody>
+        <tfoot>
+            <tr>
+                <td colspan="3" class="text-end fw-bold">Total:</td>
+                <td class="text-end fw-bold">@Model.ComputeTotalValue().ToString("c")</td>
+                <td></td>
+            </tr>
+        </tfoot>
+    </table>
+
+    <div class="d-flex justify-content-between mt-3">
+        <a href="/" class="btn btn-outline-secondary">Continue Shopping</a>
+        <a href="/Order/Checkout" class="btn btn-success">Proceed to Checkout</a>
+    </div>
+}
