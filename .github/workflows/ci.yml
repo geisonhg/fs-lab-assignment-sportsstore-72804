@@ -1,0 +1,51 @@
+name: SportsStore CI
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  build-and-test:
+    name: Build and Test (.NET 8)
+    runs-on: ubuntu-latest
+
+    env:
+      DOTNET_NOLOGO: true
+      DOTNET_CLI_TELEMETRY_OPTOUT: true
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup .NET 8 SDK
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '8.0.x'
+
+      - name: Restore dependencies
+        run: dotnet restore SportsSln.sln
+
+      - name: Build solution
+        run: dotnet build SportsSln.sln --no-restore --configuration Release
+
+      - name: Run tests
+        run: >
+          dotnet test SportsSln.sln
+          --no-build
+          --configuration Release
+          --verbosity normal
+          --logger "trx;LogFileName=test-results.trx"
+        env:
+          ConnectionStrings__SportsStoreConnection: "DataSource=:memory:"
+          Stripe__PublishableKey: ${{ secrets.STRIPE_PUBLISHABLE_KEY }}
+          Stripe__SecretKey: ${{ secrets.STRIPE_SECRET_KEY }}
+
+      - name: Upload test results
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: test-results
+          path: "**/test-results.trx"
+          retention-days: 7
