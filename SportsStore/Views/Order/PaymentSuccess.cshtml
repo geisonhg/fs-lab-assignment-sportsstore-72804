@@ -1,0 +1,43 @@
+@model SportsStore.Models.Order
+
+<div class="text-center mt-4">
+    <div class="alert alert-success">
+        <h3>Payment Successful!</h3>
+        <p>Thank you, <strong>@Model.Name</strong>. Your order has been confirmed.</p>
+    </div>
+
+    <div class="card mt-3 text-start">
+        <div class="card-header"><strong>Order Confirmation</strong></div>
+        <div class="card-body">
+            <p><strong>Order ID:</strong> #@Model.OrderId</p>
+            <p><strong>Payment Reference:</strong> <code>@Model.PaymentIntentId</code></p>
+            <p><strong>Shipping to:</strong> @Model.Line1, @Model.City, @Model.Country</p>
+            @if (Model.GiftWrap) {
+                <p><span class="badge bg-info">Gift Wrapped</span></p>
+            }
+            <h5 class="mt-3">Items Ordered</h5>
+            <table class="table table-sm">
+                <thead>
+                    <tr>
+                        <th>Product</th>
+                        <th class="text-center">Qty</th>
+                        <th class="text-end">Unit Price</th>
+                        <th class="text-end">Subtotal</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var line in Model.Lines) {
+                        <tr>
+                            <td>@(line.Product?.Name ?? "Product")</td>
+                            <td class="text-center">@line.Quantity</td>
+                            <td class="text-end">@line.UnitPrice.ToString("c")</td>
+                            <td class="text-end">@((line.UnitPrice * line.Quantity).ToString("c"))</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <a href="/" class="btn btn-primary mt-3">Continue Shopping</a>
+</div>

@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using Serilog;
 using SportsStore.Models;
+using SportsStore.Services;
 
 Log.Logger = new LoggerConfiguration()
     .WriteTo.Console()
@@ -25,6 +26,14 @@ try
     });
 
     builder.Services.AddScoped<IStoreRepository, EFStoreRepository>();
+    builder.Services.AddScoped<IPaymentService, StripePaymentService>();
+
+    builder.Services.AddDistributedMemoryCache();
+    builder.Services.AddSession(options => {
+        options.IdleTimeout = TimeSpan.FromMinutes(30);
+        options.Cookie.HttpOnly = true;
+        options.Cookie.IsEssential = true;
+    });
 
     var app = builder.Build();
 
@@ -34,6 +43,7 @@ try
     });
 
     app.UseStaticFiles();
+    app.UseSession();
     app.MapControllerRoute("pagination",
         "Products/Page{productPage}",
         new { Controller = "Home", action = "Index" });
