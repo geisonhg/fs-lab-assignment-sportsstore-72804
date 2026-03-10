@@ -1,57 +1,86 @@
 @model SportsStore.Models.Order
 
-<h2>Checkout</h2>
-<p class="text-muted">Please enter your shipping details. You will be redirected to Stripe to complete payment securely.</p>
+<h2 class="ss-section-title">Checkout</h2>
 
-<form method="post" asp-action="Checkout">
-    <div asp-validation-summary="ModelOnly" class="alert alert-danger"></div>
+<div class="row g-4">
+    <div class="col-lg-8">
+        <div class="card border-0 shadow-sm">
+            <div class="card-body p-4">
+                <h5 class="fw-bold mb-1" style="color:#1a1a2e;">Shipping Details</h5>
+                <p class="text-muted small mb-4">You will be redirected to Stripe to complete payment securely.</p>
 
-    <h4 class="mt-3">Shipping Details</h4>
-    <div class="mb-3">
-        <label asp-for="Name" class="form-label">Full Name</label>
-        <input asp-for="Name" class="form-control" />
-        <span asp-validation-for="Name" class="text-danger"></span>
-    </div>
-    <div class="mb-3">
-        <label asp-for="Line1" class="form-label">Address Line 1</label>
-        <input asp-for="Line1" class="form-control" />
-        <span asp-validation-for="Line1" class="text-danger"></span>
-    </div>
-    <div class="mb-3">
-        <label asp-for="Line2" class="form-label">Address Line 2 (optional)</label>
-        <input asp-for="Line2" class="form-control" />
-    </div>
-    <div class="row">
-        <div class="col mb-3">
-            <label asp-for="City" class="form-label">City</label>
-            <input asp-for="City" class="form-control" />
-            <span asp-validation-for="City" class="text-danger"></span>
-        </div>
-        <div class="col mb-3">
-            <label asp-for="State" class="form-label">State / County (optional)</label>
-            <input asp-for="State" class="form-control" />
-        </div>
-    </div>
-    <div class="row">
-        <div class="col mb-3">
-            <label asp-for="Zip" class="form-label">Postal Code</label>
-            <input asp-for="Zip" class="form-control" />
-            <span asp-validation-for="Zip" class="text-danger"></span>
-        </div>
-        <div class="col mb-3">
-            <label asp-for="Country" class="form-label">Country</label>
-            <input asp-for="Country" class="form-control" />
-            <span asp-validation-for="Country" class="text-danger"></span>
+                <form method="post" asp-action="Checkout">
+                    <div asp-validation-summary="ModelOnly" class="alert alert-danger rounded-3"></div>
+
+                    <div class="mb-3">
+                        <label asp-for="Name" class="form-label fw-semibold">Full Name</label>
+                        <input asp-for="Name" class="form-control" placeholder="Geison Herrera" />
+                        <span asp-validation-for="Name" class="text-danger small"></span>
+                    </div>
+                    <div class="mb-3">
+                        <label asp-for="Line1" class="form-label fw-semibold">Address Line 1</label>
+                        <input asp-for="Line1" class="form-control" placeholder="123 Main Street" />
+                        <span asp-validation-for="Line1" class="text-danger small"></span>
+                    </div>
+                    <div class="mb-3">
+                        <label asp-for="Line2" class="form-label fw-semibold text-muted">Address Line 2 <span class="fw-normal">(optional)</span></label>
+                        <input asp-for="Line2" class="form-control" placeholder="Apartment, suite, etc." />
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label asp-for="City" class="form-label fw-semibold">City</label>
+                            <input asp-for="City" class="form-control" placeholder="Dublin" />
+                            <span asp-validation-for="City" class="text-danger small"></span>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label asp-for="State" class="form-label fw-semibold text-muted">County <span class="fw-normal">(optional)</span></label>
+                            <input asp-for="State" class="form-control" placeholder="Co. Dublin" />
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4 mb-3">
+                            <label asp-for="Zip" class="form-label fw-semibold">Postal Code</label>
+                            <input asp-for="Zip" class="form-control" placeholder="D01 AB12" />
+                            <span asp-validation-for="Zip" class="text-danger small"></span>
+                        </div>
+                        <div class="col-md-8 mb-3">
+                            <label asp-for="Country" class="form-label fw-semibold">Country</label>
+                            <input asp-for="Country" class="form-control" placeholder="Ireland" />
+                            <span asp-validation-for="Country" class="text-danger small"></span>
+                        </div>
+                    </div>
+
+                    <div class="form-check mb-4 p-3 rounded-3" style="background:#f8f0ff;">
+                        <input asp-for="GiftWrap" class="form-check-input" type="checkbox" />
+                        <label asp-for="GiftWrap" class="form-check-label fw-semibold">
+                            &#127873; Gift wrap this order
+                        </label>
+                    </div>
+
+                    <div class="d-flex justify-content-between">
+                        <a href="/Cart" class="btn btn-outline-secondary" style="border-radius:8px;">&#8592; Back to Cart</a>
+                        <button type="submit" class="btn fw-bold" style="background:#e94560;color:#fff;border-radius:8px;padding:0.5rem 1.8rem;">
+                            &#128274; Pay with Stripe
+                        </button>
+                    </div>
+                </form>
+            </div>
         </div>
     </div>
 
-    <div class="form-check mb-3">
-        <input asp-for="GiftWrap" class="form-check-input" type="checkbox" />
-        <label asp-for="GiftWrap" class="form-check-label">Gift wrap this order</label>
+    <div class="col-lg-4">
+        <div class="card border-0 shadow-sm" style="background:#f0f4ff;">
+            <div class="card-body p-4">
+                <h6 class="fw-bold mb-3" style="color:#1a1a2e;">&#128274; Secure Payment</h6>
+                <p class="text-muted small mb-0">
+                    Your payment is processed by <strong>Stripe</strong> — a PCI-compliant payment provider.
+                    We never store your card details.
+                </p>
+                <hr />
+                <p class="text-muted small mb-0">
+                    &#128100; Your shipping information is only used to fulfil your order.
+                </p>
+            </div>
+        </div>
     </div>
-
-    <div class="d-flex justify-content-between mt-3">
-        <a href="/Cart" class="btn btn-outline-secondary">Back to Cart</a>
-        <button type="submit" class="btn btn-primary">Pay with Stripe</button>
-    </div>
-</form>
+</div>
