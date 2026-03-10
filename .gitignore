@@ -49,6 +49,11 @@ appsettings.Development.json
 logs/
 *.log
 
+# SQLite local dev database
+*.db
+*.db-shm
+*.db-wal
+
 # OS
 .DS_Store
 Thumbs.db

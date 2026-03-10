@@ -8,7 +8,9 @@ namespace SportsStore.Models {
             StoreDbContext context = app.ApplicationServices
                 .CreateScope().ServiceProvider.GetRequiredService<StoreDbContext>();
 
-            if (context.Database.GetPendingMigrations().Any()) {
+            if (context.Database.IsSqlite()) {
+                context.Database.EnsureCreated();
+            } else if (context.Database.GetPendingMigrations().Any()) {
                 context.Database.Migrate();
             }
 

@@ -20,9 +20,13 @@ try
 
     builder.Services.AddControllersWithViews();
 
+    var connectionString = builder.Configuration["ConnectionStrings:SportsStoreConnection"] ?? "";
     builder.Services.AddDbContext<StoreDbContext>(opts => {
-        opts.UseSqlServer(
-            builder.Configuration["ConnectionStrings:SportsStoreConnection"]);
+        if (connectionString.StartsWith("DataSource=", StringComparison.OrdinalIgnoreCase)) {
+            opts.UseSqlite(connectionString);
+        } else {
+            opts.UseSqlServer(connectionString);
+        }
     });
 
     builder.Services.AddScoped<IStoreRepository, EFStoreRepository>();
