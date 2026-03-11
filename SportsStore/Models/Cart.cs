@@ -20,6 +20,17 @@ namespace SportsStore.Models {
         public void RemoveLine(Product product) =>
             Lines.RemoveAll(l => l.Product.ProductID == product.ProductID);
 
+        public void UpdateQuantity(Product product, int quantity) {
+            var line = Lines.FirstOrDefault(l => l.Product.ProductID == product.ProductID);
+            if (line != null) {
+                if (quantity <= 0) {
+                    RemoveLine(product);
+                } else {
+                    line.Quantity = quantity;
+                }
+            }
+        }
+
         public decimal ComputeTotalValue() =>
             Lines.Sum(l => l.Product.Price * l.Quantity);
 

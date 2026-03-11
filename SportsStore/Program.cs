@@ -1,7 +1,12 @@
+using System.Globalization;
 using Microsoft.EntityFrameworkCore;
 using Serilog;
 using SportsStore.Models;
 using SportsStore.Services;
+
+var euro = CultureInfo.GetCultureInfo("en-IE");
+CultureInfo.DefaultThreadCurrentCulture = euro;
+CultureInfo.DefaultThreadCurrentUICulture = euro;
 
 Log.Logger = new LoggerConfiguration()
     .WriteTo.Console()

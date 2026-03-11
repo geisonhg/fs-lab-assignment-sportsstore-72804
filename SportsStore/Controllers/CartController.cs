@@ -56,5 +56,23 @@ namespace SportsStore.Controllers {
 
             return RedirectToAction("Index");
         }
+
+        [HttpPost]
+        public IActionResult UpdateQuantity(long productId, int quantity) {
+            var product = repository.Products
+                .FirstOrDefault(p => p.ProductID == productId);
+
+            if (product != null) {
+                var cart = HttpContext.Session.GetJson<Cart>("Cart") ?? new Cart();
+                cart.UpdateQuantity(product, quantity);
+                HttpContext.Session.SetJson("Cart", cart);
+
+                logger.LogInformation(
+                    "Cart quantity updated — ProductId: {ProductId}, Name: {Name}, NewQuantity: {Quantity}",
+                    product.ProductID, product.Name, quantity);
+            }
+
+            return RedirectToAction("Index");
+        }
     }
 }
