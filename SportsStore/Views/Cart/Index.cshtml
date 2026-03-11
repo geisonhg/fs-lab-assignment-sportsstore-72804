@@ -1,47 +1,62 @@
 @model SportsStore.Models.Cart
 
-<h2>Your Cart</h2>
+<h2 class="ss-section-title">Your Cart</h2>
 
 @if (!Model.Lines.Any()) {
-    <div class="alert alert-info">Your cart is empty. <a href="/">Continue shopping</a></div>
+    <div class="card border-0 shadow-sm p-5 text-center">
+        <p class="text-muted mb-3" style="font-size:1.1rem;">Your cart is empty.</p>
+        <a href="/" class="btn mx-auto" style="background:#0f3460;color:#fff;border-radius:8px;width:fit-content;">
+            Browse Products
+        </a>
+    </div>
 } else {
-    <table class="table table-bordered">
-        <thead class="table-dark">
-            <tr>
-                <th>Product</th>
-                <th class="text-end">Price</th>
-                <th class="text-center">Qty</th>
-                <th class="text-end">Subtotal</th>
-                <th></th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var line in Model.Lines) {
-                <tr>
-                    <td>@line.Product.Name</td>
-                    <td class="text-end">@line.Product.Price.ToString("c")</td>
-                    <td class="text-center">@line.Quantity</td>
-                    <td class="text-end">@((line.Product.Price * line.Quantity).ToString("c"))</td>
-                    <td class="text-center">
-                        <form method="post" asp-action="RemoveFromCart">
-                            <input type="hidden" name="productId" value="@line.Product.ProductID" />
-                            <button type="submit" class="btn btn-sm btn-danger">Remove</button>
-                        </form>
-                    </td>
-                </tr>
-            }
-        </tbody>
-        <tfoot>
-            <tr>
-                <td colspan="3" class="text-end fw-bold">Total:</td>
-                <td class="text-end fw-bold">@Model.ComputeTotalValue().ToString("c")</td>
-                <td></td>
-            </tr>
-        </tfoot>
-    </table>
+    <div class="card border-0 shadow-sm">
+        <div class="card-body p-0">
+            <table class="table mb-0">
+                <thead style="background:#f0f4ff;">
+                    <tr>
+                        <th class="ps-4 py-3">Product</th>
+                        <th class="text-end py-3">Unit Price</th>
+                        <th class="text-center py-3">Qty</th>
+                        <th class="text-end py-3">Subtotal</th>
+                        <th class="pe-4 py-3"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var line in Model.Lines) {
+                        <tr class="align-middle">
+                            <td class="ps-4 fw-semibold">@line.Product.Name</td>
+                            <td class="text-end text-muted">@line.Product.Price.ToString("c")</td>
+                            <td class="text-center">
+                                <span class="badge rounded-pill" style="background:#e8edf5;color:#1a1a2e;padding:0.4rem 0.8rem;font-size:0.9rem;">
+                                    @line.Quantity
+                                </span>
+                            </td>
+                            <td class="text-end fw-semibold">@((line.Product.Price * line.Quantity).ToString("c"))</td>
+                            <td class="text-end pe-4">
+                                <form method="post" asp-action="RemoveFromCart">
+                                    <input type="hidden" name="productId" value="@line.Product.ProductID" />
+                                    <button type="submit" class="btn btn-sm btn-outline-danger" style="border-radius:6px;font-size:0.8rem;">Remove</button>
+                                </form>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+                <tfoot style="background:#f8f9fa;">
+                    <tr>
+                        <td colspan="3" class="text-end pe-3 py-3 fw-bold fs-5">Order Total:</td>
+                        <td class="text-end py-3 fw-bold fs-5" style="color:#e94560;">@Model.ComputeTotalValue().ToString("c")</td>
+                        <td></td>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+    </div>
 
-    <div class="d-flex justify-content-between mt-3">
-        <a href="/" class="btn btn-outline-secondary">Continue Shopping</a>
-        <a href="/Order/Checkout" class="btn btn-success">Proceed to Checkout</a>
+    <div class="d-flex justify-content-between mt-4">
+        <a href="/" class="btn btn-outline-secondary" style="border-radius:8px;">&#8592; Continue Shopping</a>
+        <a href="/Order/Checkout" class="btn" style="background:#e94560;color:#fff;border-radius:8px;font-weight:600;padding:0.5rem 1.5rem;">
+            Proceed to Checkout &#8594;
+        </a>
     </div>
 }

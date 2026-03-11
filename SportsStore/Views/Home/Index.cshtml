@@ -1,10 +1,18 @@
 ﻿@model ProductsListViewModel
 
-@foreach (var p in Model?.Products ?? Enumerable.Empty<Product>()) {
-    <partial name="ProductSummary" model="p" />
-}
+<h2 class="ss-section-title">Our Products</h2>
 
-<div page-model="@Model?.PagingInfo" page-action="Index" page-classes-enabled="true"
-     page-class="btn" page-class-normal="btn-outline-dark"
-     page-class-selected="btn-primary" class="btn-group pull-right m-1">
+<div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+    @foreach (var p in Model?.Products ?? Enumerable.Empty<Product>()) {
+        <div class="col">
+            <partial name="ProductSummary" model="p" />
+        </div>
+    }
+</div>
+
+<div class="pagination-wrapper text-center mt-4">
+    <div page-model="@Model?.PagingInfo" page-action="Index" page-classes-enabled="true"
+         page-class="ss-page-btn" page-class-normal="btn-outline-dark"
+         page-class-selected="btn-primary">
+    </div>
 </div>
